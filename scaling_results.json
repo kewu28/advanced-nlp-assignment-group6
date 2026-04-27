@@ -1,0 +1,98 @@
+{
+  "XS_10": {
+    "model": "XS",
+    "frac": 0.1,
+    "error": true,
+    "stderr": "C:\\Users\\Kev\\miniconda3\\envs\\nanoGPT\\python.exe: can't open file 'C:\\Users\\Kev\\nanoGPT\\train.py': [Errno 2] No such file or directory"
+  },
+  "XS_25": {
+    "model": "XS",
+    "frac": 0.25,
+    "error": true,
+    "stderr": "C:\\Users\\Kev\\miniconda3\\envs\\nanoGPT\\python.exe: can't open file 'C:\\Users\\Kev\\nanoGPT\\train.py': [Errno 2] No such file or directory"
+  },
+  "XS_50": {
+    "model": "XS",
+    "frac": 0.5,
+    "error": true,
+    "stderr": "C:\\Users\\Kev\\miniconda3\\envs\\nanoGPT\\python.exe: can't open file 'C:\\Users\\Kev\\nanoGPT\\train.py': [Errno 2] No such file or directory"
+  },
+  "XS_100": {
+    "model": "XS",
+    "frac": 1.0,
+    "error": true,
+    "stderr": "C:\\Users\\Kev\\miniconda3\\envs\\nanoGPT\\python.exe: can't open file 'C:\\Users\\Kev\\nanoGPT\\train.py': [Errno 2] No such file or directory"
+  },
+  "S_10": {
+    "model": "S",
+    "frac": 0.1,
+    "error": true,
+    "stderr": "C:\\Users\\Kev\\miniconda3\\envs\\nanoGPT\\python.exe: can't open file 'C:\\Users\\Kev\\nanoGPT\\train.py': [Errno 2] No such file or directory"
+  },
+  "S_25": {
+    "model": "S",
+    "frac": 0.25,
+    "error": true,
+    "stderr": "C:\\Users\\Kev\\miniconda3\\envs\\nanoGPT\\python.exe: can't open file 'C:\\Users\\Kev\\nanoGPT\\train.py': [Errno 2] No such file or directory"
+  },
+  "S_50": {
+    "model": "S",
+    "frac": 0.5,
+    "error": true,
+    "stderr": "C:\\Users\\Kev\\miniconda3\\envs\\nanoGPT\\python.exe: can't open file 'C:\\Users\\Kev\\nanoGPT\\train.py': [Errno 2] No such file or directory"
+  },
+  "S_100": {
+    "model": "S",
+    "frac": 1.0,
+    "error": true,
+    "stderr": "C:\\Users\\Kev\\miniconda3\\envs\\nanoGPT\\python.exe: can't open file 'C:\\Users\\Kev\\nanoGPT\\train.py': [Errno 2] No such file or directory"
+  },
+  "M_10": {
+    "model": "M",
+    "frac": 0.1,
+    "error": true,
+    "stderr": "C:\\Users\\Kev\\miniconda3\\envs\\nanoGPT\\python.exe: can't open file 'C:\\Users\\Kev\\nanoGPT\\train.py': [Errno 2] No such file or directory"
+  },
+  "M_25": {
+    "model": "M",
+    "frac": 0.25,
+    "error": true,
+    "stderr": "C:\\Users\\Kev\\miniconda3\\envs\\nanoGPT\\python.exe: can't open file 'C:\\Users\\Kev\\nanoGPT\\train.py': [Errno 2] No such file or directory"
+  },
+  "M_50": {
+    "model": "M",
+    "frac": 0.5,
+    "error": true,
+    "stderr": "C:\\Users\\Kev\\miniconda3\\envs\\nanoGPT\\python.exe: can't open file 'C:\\Users\\Kev\\nanoGPT\\train.py': [Errno 2] No such file or directory"
+  },
+  "M_100": {
+    "model": "M",
+    "frac": 1.0,
+    "error": true,
+    "stderr": "C:\\Users\\Kev\\miniconda3\\envs\\nanoGPT\\python.exe: can't open file 'C:\\Users\\Kev\\nanoGPT\\train.py': [Errno 2] No such file or directory"
+  },
+  "L_10": {
+    "model": "L",
+    "frac": 0.1,
+    "error": true,
+    "stderr": "C:\\Users\\Kev\\miniconda3\\envs\\nanoGPT\\python.exe: can't open file 'C:\\Users\\Kev\\nanoGPT\\train.py': [Errno 2] No such file or directory"
+  },
+  "L_25": {
+    "model": "L",
+    "frac": 0.25,
+    "error": true,
+    "stderr": "C:\\Users\\Kev\\miniconda3\\envs\\nanoGPT\\python.exe: can't open file 'C:\\Users\\Kev\\nanoGPT\\train.py': [Errno 2] No such file or directory"
+  },
+  "L_50": {
+    "model": "L",
+    "frac": 0.5,
+    "error": true,
+    "stderr": "C:\\Users\\Kev\\miniconda3\\envs\\nanoGPT\\python.exe: can't open file 'C:\\Users\\Kev\\nanoGPT\\train.py': [Errno 2] No such file or directory"
+  },
+  "L_100": {
+    "model": "L",
+    "frac": 1.0,
+    "error": true,
+    "stderr": "C:\\Users\\Kev\\miniconda3\\envs\\nanoGPT\\python.exe: can't open file 'C:\\Users\\Kev\\nanoGPT\\train.py': [Errno 2] No such file or directory"
+  }
+}
