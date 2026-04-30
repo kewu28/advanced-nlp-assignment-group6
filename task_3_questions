@@ -1,0 +1,26 @@
+Q7. At what rank does LoRA match or approach full fine-tuning accuracy?
+What does this suggest about the intrinsic dimensionality of the task adaptation?
+
+LoRA at rank 4 achieves the best validation loss of 2.045, which not only matches but substantially outperforms full fine-tuning (2.205) using only 0.34% of the trainable parameters (36,864 vs. 10,745,088).
+Notably, even rank 1 with just 9,216 parameters nearly matches full fine-tuning, suggesting the task adaptation has very low intrinsic dimensionality.
+This implies that the update needed to adapt the pretrained Shakespeare model back to Shakespeare-style generation lies in a very low-dimensional subspace of the full parameter space. 
+The fact that higher ranks (8, 16) do not improve and sometimes hurt performance suggests that the additional capacity introduces noise rather than useful signal at this scale.
+
+
+
+
+Q8. How does LoRA compare to full fine-tuning in terms of catastrophic forgetting? 
+Explain why you observe (or do not observe) a difference:
+
+LoRA (rank 4, val loss 2.045) shows significantly less catastrophic forgetting than full fine-tuning (val loss 2.205) relative to the pretrained baseline of 2.04.
+Full fine-tuning shifts all 10.7M parameters, which risks overwriting the general language patterns learned during pretraining.
+LoRA, by contrast, freezes all base weights and only trains small rank-decomposition matrices, so the pretrained representations are structurally preserved. 
+The near-identical val loss between LoRA and the pretrained baseline (2.045 vs. 2.04) confirms that LoRA introduces almost no forgetting in this setting, 
+the base model's knowledge remains essentially intact while still allowing adaptation.
+
+
+
+Q9. If you were deploying this model for 10 different tasks simultaneously, what practical advantages would LoRA offer over full fine-tuning?
+
+
+With full fine-tuning, deploying 10 tasks would require storing 10 separate copies of the full 10.7M parameter model, totalling over 100M parameters and significant memory overhead when switching between tasks at inference time. LoRA instead requires only one shared frozen base model plus 10 small sets of rank-decomposition matrices — at rank 4, each adapter adds just 36,864 parameters, meaning all 10 task adapters together are smaller than 0.4M parameters total. Task switching at inference is then as simple as swapping the active LoRA weights, with no need to reload the full model. Additionally, LoRA training is faster and more memory-efficient since gradients only flow through the small adapter matrices, making it practical to fine-tune on modest hardware — especially relevant at deployment scale where compute costs matter.
