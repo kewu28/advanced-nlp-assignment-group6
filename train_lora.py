@@ -34,7 +34,7 @@ from model_lora import GPT, GPTConfig
 
 # ── Configuration ──────────────────────────────────────────────────────────────
 
-CHECKPOINT_PATH = 'out/scaling/M_100/ckpt.pt'   # pretrained M model from Part 1
+CHECKPOINT_PATH = 'out/scaling/M_100/ckpt_small.pt'   # pretrained M model from Part 1
 DATA_DIR        = 'data/shakespeare_char'
 RESULTS_FILE    = 'lora_results.json'
 
@@ -212,6 +212,7 @@ def run_experiment_5(device, device_type, ctx, results):
         model, config, _ = load_pretrained(CHECKPOINT_PATH, device)
         model.to(device)
         trainable = model.inject_lora(lora_rank=rank)
+        model.to(device)
 
         result = train_run(
             model, config, f"LoRA-r{rank}",
@@ -282,6 +283,7 @@ def run_experiment_6(device, device_type, ctx, results):
         model, config, _ = load_pretrained(CHECKPOINT_PATH, device)
         model.to(device)
         model.inject_lora(lora_rank=4)
+        model.to(device)
 
         result = train_run(
             model, config, "LoRA-r4",
@@ -430,6 +432,7 @@ def analyze_results(results):
 # ── Main ──────────────────────────────────────────────────────────────────────
 
 def main():
+    global CHECKPOINT_PATH
     parser = argparse.ArgumentParser(description='LoRA Training — Part 3')
     parser.add_argument('--experiment', default='all',
                         choices=['4', '5', '6', 'all'],
@@ -440,7 +443,6 @@ def main():
                         help=f'Path to pretrained checkpoint (default: {CHECKPOINT_PATH})')
     args = parser.parse_args()
 
-    global CHECKPOINT_PATH
     CHECKPOINT_PATH = args.checkpoint
 
     device      = args.device
