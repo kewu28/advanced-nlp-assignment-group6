@@ -116,21 +116,39 @@ ctx = nullcontext() if device_type == 'cpu' else torch.amp.autocast(device_type=
 # poor man's data loader
 data_dir = os.path.join('data', dataset)
 def get_batch(split):
-    # We recreate np.memmap every batch to avoid a memory leak, as per
-    # https://stackoverflow.com/questions/45132940/numpy-memmap-memory-usage-want-to-iterate-once/61472122#61472122
-    if split == 'train':
-        data = np.memmap(os.path.join(data_dir, train_file), dtype=np.uint16, mode='r')  # PATCH
+    if dataset == 'multitask':
+        data_a = np.memmap(os.path.join('data', 'task_a', f'{split}.bin'), dtype=np.uint16, mode='r')
+        data_b = np.memmap(os.path.join('data', 'task_b', f'{split}.bin'), dtype=np.uint16, mode='r')
+        xs, ys = [], []
+        for _ in range(batch_size):
+            data = data_a if np.random.random() < 0.5 else data_b
+            ix = np.random.randint(0, len(data) - block_size)
+            x = torch.from_numpy(data[ix : ix + block_size].astype(np.int64))
+            y = torch.from_numpy(data[ix+1 : ix + block_size + 1].astype(np.int64))
+            xs.append(x)
+            ys.append(y)
+        idx = torch.randperm(batch_size)
+        x = torch.stack(xs)[idx]
+        y = torch.stack(ys)[idx]
+        if device_type == 'cuda':
+            x = x.pin_memory().to(device, non_blocking=True)
+            y = y.pin_memory().to(device, non_blocking=True)
+        else:
+            x, y = x.to(device), y.to(device)
+        return x, y
     else:
-        data = np.memmap(os.path.join(data_dir, 'val.bin'), dtype=np.uint16, mode='r')
-    ix = torch.randint(len(data) - block_size, (batch_size,))
-    x = torch.stack([torch.from_numpy((data[i:i+block_size]).astype(np.int64)) for i in ix])
-    y = torch.stack([torch.from_numpy((data[i+1:i+1+block_size]).astype(np.int64)) for i in ix])
-    if device_type == 'cuda':
-        # pin arrays x,y, which allows us to move them to GPU asynchronously (non_blocking=True)
-        x, y = x.pin_memory().to(device, non_blocking=True), y.pin_memory().to(device, non_blocking=True)
-    else:
-        x, y = x.to(device), y.to(device)
-    return x, y
+        if split == 'train':
+            data = np.memmap(os.path.join(data_dir, train_file), dtype=np.uint16, mode='r')
+        else:
+            data = np.memmap(os.path.join(data_dir, 'val.bin'), dtype=np.uint16, mode='r')
+        ix = torch.randint(len(data) - block_size, (batch_size,))
+        x = torch.stack([torch.from_numpy((data[i:i+block_size]).astype(np.int64)) for i in ix])
+        y = torch.stack([torch.from_numpy((data[i+1:i+1+block_size]).astype(np.int64)) for i in ix])
+        if device_type == 'cuda':
+            x, y = x.pin_memory().to(device, non_blocking=True), y.pin_memory().to(device, non_blocking=True)
+        else:
+            x, y = x.to(device), y.to(device)
+        return x, y
 
 # init these up here, can override if init_from='resume' (i.e. from a checkpoint)
 iter_num = 0
