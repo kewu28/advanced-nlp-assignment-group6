@@ -338,7 +338,8 @@ def plot_optimal_frontier(grid):
     ax = axes[0]
     optimal_points = []   # (model, frac, val_loss, flops, params)
 
-    for model in MODEL_CONFIGS_ORDERED := MODEL_ORDER:
+    MODEL_CONFIGS_ORDERED = MODEL_ORDER
+    for model in MODEL_CONFIGS_ORDERED:
         best_val, best_frac, best_v = float('inf'), None, None
         for frac in FRAC_ORDER:
             v = grid.get((model, frac))
