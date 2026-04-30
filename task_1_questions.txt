@@ -1,0 +1,37 @@
+Q1 — Mandatory
+Do you observe a clear compute-optimal trade-off between model size and data size? 
+Does the Chinchilla ratio of ~20 tokens per parameter hold at this scale?
+
+A clear compute-optimal trade-off is visible, but the Chinchilla ratio of ~20x does not hold at this scale.
+All models perform best at 100% of the training data, which is the expected result given that the dataset acts as a hard ceiling. 
+The observed tokens-per-parameter ratios are far below 20x: XS achieves 8.42x, S only 1.21x, M 0.09x, and L a mere 0.04x. 
+The primary reason is dataset size — Tiny Shakespeare contains only ~1 million tokens, whereas the Chinchilla ratio was derived from experiments using hundreds of billions of tokens. 
+Larger models such as M (10.7M params) and L (25.3M params) would require approximately 214M and 506M tokens respectively for compute-optimal training, which this dataset cannot provide. 
+The optimal strategy at this scale is therefore always to use all available data, regardless of model size.
+
+
+
+Q2 — Mandatory
+At which model sizes do you see clear overfitting? How does overfitting interact with dataset size?
+
+Severe overfitting is present in M and L across all dataset fractions. 
+The M model at 10% data reaches a training loss of 0.048 against a validation loss of 4.690 — a gap of +4.64, indicating near-complete memorisation of the training subset. 
+L is even more extreme, with a gap of +5.09 at 10% data. XS and S show moderate, manageable overfitting: the largest gap for XS is +0.33 at 10% data, and for S it is +0.71. 
+Dataset size strongly reduces overfitting in all models — increasing from 10% to 100% data cuts the gap for M from +4.64 to +1.43, and for S from +0.71 to +0.15. 
+This confirms that overfitting is primarily a consequence of model capacity far exceeding the available training data, and that more data is the most effective remedy at this scale.
+
+
+
+Q3 — Mandatory
+What are the key limitations of running scaling-law experiments at this scale? Which conclusions would you trust to generalise?
+
+The most critical limitation is dataset size: 
+Tiny Shakespeare's ~1 million tokens makes it impossible to train M or L models anywhere near their compute-optimal regime, 
+meaning the scaling curves are dominated by overfitting rather than true loss scaling. 
+Additionally, character-level tokenisation produces a vocabulary of only 65 symbols compared to ~50,000 BPE tokens in large-scale experiments, 
+which changes the nature of the learning problem significantly. 
+The 6ND FLOP approximation also becomes less accurate at very small N and D, where constant factors ignored by the formula matter more. 
+Despite these limitations, two conclusions appear trustworthy enough to generalise: 
+(1) validation loss consistently decreases as dataset size increases, which is a robust finding across all scales; 
+and (2) smaller models generalise better under data-constrained regimes, 
+which directly mirrors the Chinchilla insight even if the exact optimal ratio differs.
