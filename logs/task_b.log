@@ -1,0 +1,145 @@
+Overriding config with config/finetune_task_b.py:
+# config/finetune_task_b.py
+
+# system
+device = 'cuda'   # FIX: was 'cpu'
+compile = False
+
+# I/O
+out_dir = 'out/task_b'
+eval_interval = 50
+eval_iters = 40
+always_save_checkpoint = False
+
+# logging
+wandb_log = False  # set to True if you want W&B
+wandb_project = 'shakespeare_sft'
+wandb_run_name = 'task_b_m100_finetune'
+log_interval = 10
+
+# data
+dataset = 'task_b'
+block_size = 256
+
+# model — must match M_100 architecture
+n_layer = 6
+n_head = 6
+n_embd = 384
+bias = False
+vocab_size = 65
+
+# init from M_100 checkpoint
+init_from = 'resume'
+dropout = 0.1
+
+# training
+max_iters = 2000
+iter_num = 0
+learning_rate = 5e-5
+decay_lr = False
+min_lr = 5e-5
+batch_size = 32
+gradient_accumulation_steps = 1
+
+# optimizer
+weight_decay = 1e-1
+beta1 = 0.9
+beta2 = 0.95
+grad_clip = 1.0
+dtype = 'float16'
+
+tokens per iteration will be: 8,192
+found vocab_size = 64 (inside data/task_b/meta.pkl)
+Resuming training from out/task_b
+number of parameters: 10.65M
+/teamspace/studios/this_studio/advanced-nlp-assignment-group6/train.py:216: FutureWarning: `torch.cuda.amp.GradScaler(args...)` is deprecated. Please use `torch.amp.GradScaler('cuda', args...)` instead.
+  scaler = torch.cuda.amp.GradScaler(enabled=(dtype == 'float16'))
+num decayed parameter tensors: 26, with 10,740,096 parameters
+num non-decayed parameter tensors: 13, with 4,992 parameters
+using fused AdamW: True
+step 1300: train loss 0.9986, val loss 1.3950
+iter 1300: loss 1.0869, time 1620.18ms, mfu -100.00%
+iter 1310: loss 1.1079, time 50.13ms, mfu 3.72%
+iter 1320: loss 1.1023, time 50.34ms, mfu 3.72%
+iter 1330: loss 1.1024, time 50.95ms, mfu 3.71%
+iter 1340: loss 1.1304, time 50.65ms, mfu 3.71%
+step 1350: train loss 0.9796, val loss 1.4182
+iter 1350: loss 1.0876, time 1388.51ms, mfu 3.35%
+iter 1360: loss 1.1107, time 50.35ms, mfu 3.38%
+iter 1370: loss 1.0876, time 51.09ms, mfu 3.41%
+iter 1380: loss 1.0846, time 50.93ms, mfu 3.44%
+iter 1390: loss 1.0522, time 50.96ms, mfu 3.46%
+step 1400: train loss 0.9606, val loss 1.4309
+iter 1400: loss 1.0651, time 1388.12ms, mfu 3.12%
+iter 1410: loss 1.1179, time 51.36ms, mfu 3.18%
+iter 1420: loss 1.0945, time 51.20ms, mfu 3.22%
+iter 1430: loss 1.1101, time 50.92ms, mfu 3.27%
+iter 1440: loss 1.0850, time 50.44ms, mfu 3.31%
+step 1450: train loss 0.9377, val loss 1.4407
+iter 1450: loss 1.0634, time 1395.89ms, mfu 2.99%
+iter 1460: loss 1.0675, time 51.37ms, mfu 3.05%
+iter 1470: loss 1.0398, time 50.85ms, mfu 3.12%
+iter 1480: loss 1.1111, time 50.40ms, mfu 3.17%
+iter 1490: loss 1.0681, time 50.76ms, mfu 3.22%
+step 1500: train loss 0.9178, val loss 1.4268
+iter 1500: loss 1.1460, time 1390.57ms, mfu 2.91%
+iter 1510: loss 1.1276, time 51.05ms, mfu 2.99%
+iter 1520: loss 1.0877, time 50.87ms, mfu 3.06%
+iter 1530: loss 1.1249, time 50.84ms, mfu 3.12%
+iter 1540: loss 1.1015, time 50.17ms, mfu 3.18%
+step 1550: train loss 0.9178, val loss 1.4125
+iter 1550: loss 1.0899, time 1386.61ms, mfu 2.87%
+iter 1560: loss 1.0988, time 51.00ms, mfu 2.95%
+iter 1570: loss 1.0573, time 50.92ms, mfu 3.02%
+iter 1580: loss 1.0957, time 51.21ms, mfu 3.08%
+iter 1590: loss 1.0873, time 51.23ms, mfu 3.14%
+step 1600: train loss 0.8955, val loss 1.4124
+iter 1600: loss 1.1082, time 1391.99ms, mfu 2.84%
+iter 1610: loss 1.0866, time 50.63ms, mfu 2.92%
+iter 1620: loss 1.0692, time 50.98ms, mfu 3.00%
+iter 1630: loss 1.0685, time 51.37ms, mfu 3.06%
+iter 1640: loss 1.0464, time 51.21ms, mfu 3.12%
+step 1650: train loss 0.8787, val loss 1.4317
+iter 1650: loss 1.0970, time 1396.96ms, mfu 2.82%
+iter 1660: loss 1.0460, time 51.21ms, mfu 2.90%
+iter 1670: loss 1.0797, time 51.01ms, mfu 2.98%
+iter 1680: loss 1.0339, time 51.01ms, mfu 3.04%
+iter 1690: loss 1.0778, time 51.42ms, mfu 3.10%
+step 1700: train loss 0.8703, val loss 1.4197
+iter 1700: loss 1.0258, time 1392.52ms, mfu 2.80%
+iter 1710: loss 1.0371, time 50.56ms, mfu 2.89%
+iter 1720: loss 1.0615, time 51.34ms, mfu 2.97%
+iter 1730: loss 1.0397, time 51.16ms, mfu 3.03%
+iter 1740: loss 1.0399, time 51.23ms, mfu 3.09%
+step 1750: train loss 0.8492, val loss 1.4382
+iter 1750: loss 1.0570, time 1389.94ms, mfu 2.80%
+iter 1760: loss 1.0111, time 50.73ms, mfu 2.89%
+iter 1770: loss 1.0167, time 50.24ms, mfu 2.97%
+iter 1780: loss 1.0201, time 50.65ms, mfu 3.04%
+iter 1790: loss 1.0366, time 50.88ms, mfu 3.10%
+step 1800: train loss 0.8264, val loss 1.4300
+iter 1800: loss 1.0346, time 1391.61ms, mfu 2.80%
+iter 1810: loss 1.0151, time 50.67ms, mfu 2.89%
+iter 1820: loss 0.9860, time 50.58ms, mfu 2.97%
+iter 1830: loss 1.0256, time 51.67ms, mfu 3.03%
+iter 1840: loss 1.0258, time 51.25ms, mfu 3.09%
+step 1850: train loss 0.8166, val loss 1.4517
+iter 1850: loss 1.0258, time 1395.52ms, mfu 2.80%
+iter 1860: loss 0.9966, time 51.48ms, mfu 2.88%
+iter 1870: loss 1.0037, time 51.62ms, mfu 2.95%
+iter 1880: loss 0.9935, time 51.19ms, mfu 3.02%
+iter 1890: loss 0.9774, time 51.19ms, mfu 3.08%
+step 1900: train loss 0.7950, val loss 1.4549
+iter 1900: loss 0.9660, time 1397.43ms, mfu 2.79%
+iter 1910: loss 0.9927, time 50.87ms, mfu 2.88%
+iter 1920: loss 1.0050, time 51.12ms, mfu 2.95%
+iter 1930: loss 0.9814, time 51.46ms, mfu 3.02%
+iter 1940: loss 0.9725, time 51.32ms, mfu 3.08%
+step 1950: train loss 0.7735, val loss 1.4857
+iter 1950: loss 0.9544, time 1393.19ms, mfu 2.79%
+iter 1960: loss 0.9769, time 51.24ms, mfu 2.87%
+iter 1970: loss 0.9536, time 51.28ms, mfu 2.95%
+iter 1980: loss 0.9429, time 51.26ms, mfu 3.02%
+iter 1990: loss 0.9791, time 50.88ms, mfu 3.08%
+step 2000: train loss 0.7642, val loss 1.4767
+iter 2000: loss 0.9794, time 1390.02ms, mfu 2.79%

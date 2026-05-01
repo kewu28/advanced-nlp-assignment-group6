@@ -1,0 +1,58 @@
+Overriding config with config/finetune_multitask.py:
+# config/finetune_multitask.py — config for experiment 2, joint task a + task b training
+
+# system
+device = 'cuda'   # FIX: was 'cpu'
+compile = False
+
+# I/O
+out_dir = 'out/multitask'
+eval_interval = 100
+eval_iters = 20
+log_interval = 10
+always_save_checkpoint = True
+
+# init from M_100 checkpoint
+# cp out/scaling/M_100/ckpt_small.pt out/multitask/ckpt.pt
+init_from = 'resume'
+
+# signals the patched get_batch() to use multitask loader
+dataset = 'multitask'
+
+# must match M_100 architecture exactly
+n_layer = 6
+n_head = 6
+n_embd = 384
+block_size = 256
+bias = False
+vocab_size = 65
+
+# same hyperparams as single-task runs for fair comparison
+batch_size = 32
+max_iters = 2000
+learning_rate = 5e-5
+decay_lr = False
+warmup_iters = 0
+min_lr = 5e-5
+
+dropout = 0.1
+weight_decay = 1e-1
+beta1 = 0.9
+beta2 = 0.99
+grad_clip = 1.0
+dtype = 'float16'
+
+iter_num = 0
+best_val_loss = 1e9
+
+tokens per iteration will be: 327,680
+Resuming training from out/multitask
+number of parameters: 10.65M
+/teamspace/studios/this_studio/advanced-nlp-assignment-group6/train.py:216: FutureWarning: `torch.cuda.amp.GradScaler(args...)` is deprecated. Please use `torch.amp.GradScaler('cuda', args...)` instead.
+  scaler = torch.cuda.amp.GradScaler(enabled=(dtype == 'float16'))
+num decayed parameter tensors: 26, with 10,740,096 parameters
+num non-decayed parameter tensors: 13, with 4,992 parameters
+using fused AdamW: True
+step 2000: train loss 0.0661, val loss 2.6352
+saving checkpoint to out/multitask
+iter 2000: loss 0.1373, time 3106.26ms, mfu -100.00%
