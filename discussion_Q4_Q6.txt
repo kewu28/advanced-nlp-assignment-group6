@@ -1,0 +1,44 @@
+Part 2 — Discussion Questions
+==============================
+
+Q4. How does multi-task SFT compare to single-task? Do you observe positive transfer,
+negative interference, or both?
+
+Multi-task SFT performs slightly worse than single-task on both tasks: Task A drops from
+19.0% to 16.0% and Task B drops from 68.89% to 63.33%, suggesting mild negative
+interference rather than positive transfer. This is likely because the two tasks make
+conflicting demands on the model — Task A requires memorizing speaker-specific stylistic
+patterns while Task B requires learning a binary structural distinction between verse and
+prose. When trained jointly, the model cannot fully specialize for either task.
+Additionally, at this small scale with a character-level model, the shared capacity is
+limited, so splitting it across two tasks hurts both. Positive transfer might be more
+likely if the tasks shared more linguistic structure.
+
+
+Q5. How severe is catastrophic forgetting? What is the trade-off between task performance
+and general language modelling ability after SFT?
+
+Catastrophic forgetting is severe across all fine-tuned models: Shakespeare val loss jumps
+from the pretrained baseline of 2.04 to 5.75 (Task A), 6.25 (Task B), and 8.44
+(Multitask) — increases of 2.8x, 3.1x, and 4.1x respectively. The multitask model forgets
+the most despite having the highest val loss during training (2.62), suggesting it is
+pulled away from the original data distribution in two directions simultaneously. The
+trade-off is stark: even the modest accuracy gains on the downstream tasks (19% for Task A,
+68.89% for Task B — both well above random) come at the cost of almost completely
+destroying the model's general Shakespeare language modelling ability. This highlights why
+parameter-efficient methods like LoRA are preferable when preserving the base model matters.
+
+
+Q6. What design choices did you make for the SFT data format, and how might they affect
+results?
+
+For Task A we used the format [SPEAKER] <dialogue> [ANSWER] CHARACTER [END], and for
+Task B [CLASSIFY] <passage> [ANSWER] VERSE/PROSE [END]. Since the model is character-level,
+the special tokens [SPEAKER], [ANSWER], etc. are simply sequences of ASCII characters
+already in the vocabulary — no vocabulary extension was needed. For Task B, we used a
+median line-length heuristic to classify blocks as verse or prose, which is noisy since the
+nanoGPT Shakespeare corpus uses consistent line wrapping that obscures the true verse/prose
+distinction. A cleaner dataset with more reliable labels would likely improve Task B
+accuracy significantly. A different prompt template — for example placing the answer token
+on a new line, or using shorter delimiter tokens — might help the model learn the format
+more efficiently and improve accuracy on both tasks.
