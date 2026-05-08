@@ -1,13 +1,4 @@
 ---
-
-# Setup
-
-```bash
-git clone <repo-url>
-cd <repo>
-pip install torch numpy matplotlib
-```
-
 All experiments were run on Lightning AI with a T4 GPU.
 
 ---
