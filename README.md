@@ -47,12 +47,3 @@ Make sure `scaling_results.json`, `lora_results.json`, and the pretrained checkp
 | LoRA rank=1 | 9,216 | 2.0480 | +0.008 |
 | LoRA rank=4 | 36,864 | **2.0454** | +0.005 |
 | LoRA rank=16 | 147,456 | 2.0543 | +0.014 |
-
----
-
-## References
-
-- Hoffmann et al. (2022). *Training Compute-Optimal Large Language Models.* arXiv:2203.15556
-- Hu et al. (2022). *LoRA: Low-Rank Adaptation of Large Language Models.* ICLR 2022
-- Kaplan et al. (2020). *Scaling Laws for Neural Language Models.* arXiv:2001.08361
-- Karpathy (2023). *nanoGPT.* https://github.com/karpathy/nanoGPT
